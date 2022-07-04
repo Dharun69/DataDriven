@@ -71,6 +71,10 @@ public class ReadExcelLoginCase {
 				if(isDisplayed==true)
 				{
 					result = "Pass";
+					//Writing to an excel
+					cell=row.createCell(2);
+					cell.setCellType(CellType.STRING);
+					cell.setCellValue(result);
 				}
 				System.out.println("Username is :"+ username + "  "+ "Password is :"+ password + "Is login success "+ result);
 				driver.findElement(By.xpath("//a[@class='ico-logout']")).click();
@@ -81,16 +85,22 @@ public class ReadExcelLoginCase {
 				boolean isError = driver.findElement(By.xpath("//*[text()='The credentials provided are incorrect']")).isDisplayed();
 				if(isError==true) {
 					result="Fail";
+					cell=row.createCell(2);
+					cell.setCellType(CellType.STRING);
+					cell.setCellValue(result);
 				}
 				System.out.println("Username is :"+ username + "  "+ "Password is :"+ password + "Is login success "+ result);
 
 		
 			}
-			
+			Thread.sleep(1000);
+
 			driver.findElement(By.xpath("//a[@class='ico-login']")).click();
 
 
 		}
-
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+		workbook.write(fileOutputStream);
+		fileOutputStream.close();
 	}
 }
